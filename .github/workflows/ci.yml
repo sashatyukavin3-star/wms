@@ -1,0 +1,94 @@
+# CI: проверка качества кода и тесты для клиента и сервера.
+#
+# Запускается на каждый push и pull_request в main/dev.
+# Каждый запуск делает: typecheck → lint → test (для клиента и сервера параллельно).
+#
+# Если красный — значит код ломает что-то существующее. Не мержим.
+name: CI
+
+on:
+  push:
+    branches: [main, dev, develop]
+  pull_request:
+    branches: [main]
+  # Раз в неделю проверяем актуальность зависимостей и npm audit
+  schedule:
+    - cron: '0 6 * * 1' # каждый понедельник в 06:00 UTC
+
+jobs:
+  client:
+    name: Client (Vite + React)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build (smoke check)
+        run: npm run build
+
+  server:
+    name: Server (Fastify + SQLite)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install dependencies
+        working-directory: server
+        run: npm ci --no-audit --no-fund
+
+      - name: Typecheck
+        working-directory: server
+        run: npm run typecheck
+
+      - name: Lint
+        working-directory: server
+        run: npm run lint
+
+      - name: Test
+        working-directory: server
+        run: npm test
+
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    # Уязвимости не блокируют другие проверки, но видны как отдельная job
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Audit client
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Audit server
+        working-directory: server
+        run: npm audit --audit-level=high
+        continue-on-error: true

@@ -1,0 +1,265 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+  
+  --color-nexus-bg: #0b1620;
+  --color-nexus-surface: #122230;
+  --color-nexus-surface2: #1a2e3f;
+  --color-nexus-surface3: #243c4f;
+  --color-nexus-border: #2b455c;
+  --color-nexus-border2: #3c5b76;
+  --color-nexus-text: #e4e7f0;
+  --color-nexus-text2: #8891a8;
+  --color-nexus-text3: #555d78;
+  --color-nexus-accent: #3a8ab0;
+  --color-nexus-accent2: #5fb6d9;
+  --color-nexus-success: #22c55e;
+  --color-nexus-warning: #f59e0b;
+  --color-nexus-danger: #ef4444;
+  --color-nexus-info: #3b82f6;
+  --color-nexus-a: #22c55e;
+  --color-nexus-b: #f59e0b;
+  --color-nexus-c: #9ca3af;
+  --color-nexus-x: #3b82f6;
+  --color-nexus-y: #f59e0b;
+  --color-nexus-z: #ef4444;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-nexus-border) transparent;
+}
+
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--color-nexus-border); border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--color-nexus-border2); }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--color-nexus-bg);
+  color: var(--color-nexus-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --color-nexus-bg: #f5f3ee;
+  --color-nexus-surface: #ffffff;
+  --color-nexus-surface2: #ecf2f6;
+  --color-nexus-surface3: #dde7ee;
+  --color-nexus-border: #c8d6e0;
+  --color-nexus-border2: #b0c2cf;
+  --color-nexus-text: #1e3a5c;
+  --color-nexus-text2: #4a6781;
+  --color-nexus-text3: #7e95a9;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(95, 182, 217, 0.4); }
+  50% { box-shadow: 0 0 20px 4px rgba(95, 182, 217, 0.15); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(100%) scale(0.9); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fadeIn { animation: fadeIn 0.3s ease-out; }
+.animate-slideIn { animation: slideIn 0.25s ease-out; }
+.animate-scaleIn { animation: scaleIn 0.2s ease-out; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-nexus-surface2) 25%, var(--color-nexus-surface3) 50%, var(--color-nexus-surface2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* Toast animations */
+.toast-enter { animation: toast-in 0.35s ease-out; }
+.toast-exit { animation: toast-out 0.3s ease-in forwards; }
+
+/* Print styles */
+@media print {
+  body { background: white !important; color: black !important; }
+  .no-print { display: none !important; }
+  
+  @page { size: A4; margin: 10mm; }
+  
+  .print-page {
+    width: 190mm;
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    color: #000;
+  }
+  
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #000; padding: 3px 6px; font-size: 9pt; }
+  tr { page-break-inside: avoid; }
+  .page-break { page-break-after: always; }
+}
+
+/* Input focus ring */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(95, 182, 217, 0.4);
+}
+
+/* Table sticky header */
+.sticky-header th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-nexus-surface);
+}
+
+/* Autocomplete dropdown */
+.ac-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 280px;
+  overflow-y: auto;
+  background: var(--color-nexus-surface2);
+  border: 1px solid var(--color-nexus-border2);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  margin-top: 4px;
+}
+
+.ac-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--color-nexus-border);
+  transition: background 0.15s;
+}
+
+.ac-item:hover, .ac-item.active {
+  background: var(--color-nexus-surface3);
+}
+
+.ac-item mark {
+  background: rgba(95, 182, 217, 0.3);
+  color: var(--color-nexus-accent2);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* TSD mode adjustments */
+[data-tsd="1"] button,
+[data-tsd="1"] input,
+[data-tsd="1"] select {
+  min-height: 48px !important;
+  font-size: 16px !important;
+}
+
+/* Global improvements */
+::selection {
+  background: rgba(95, 182, 217, 0.4);
+  color: #fff;
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid rgba(95, 182, 217, 0.5);
+  outline-offset: 2px;
+}
+
+/* Smooth page transitions */
+main > div > div {
+  will-change: transform, opacity;
+}
+
+/* Better input styling */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.5;
+}
+
+/* Table row hover effect */
+table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ТСД-режим: крупные кнопки/инпуты/шрифты для работы в перчатках
+   Включается атрибутом data-tsd="1" на <html>.
+   ═══════════════════════════════════════════════════════════ */
+html[data-tsd="1"] {
+  font-size: 17px;
+}
+html[data-tsd="1"] button:not([class*="w-8"]):not([class*="w-10"]):not([class*="p-1"]):not([class*="p-2"]) {
+  min-height: 52px;
+}
+html[data-tsd="1"] input:not([type="checkbox"]):not([type="radio"]),
+html[data-tsd="1"] select {
+  min-height: 48px;
+  font-size: 16px !important;
+}
+html[data-tsd="1"] .text-xs { font-size: 13px !important; }
+html[data-tsd="1"] .text-sm { font-size: 15px !important; }
+html[data-tsd="1"] .text-base { font-size: 17px !important; }
+html[data-tsd="1"] kbd { font-size: 14px !important; padding: 4px 8px !important; }
