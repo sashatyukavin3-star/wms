@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7cc4dc"/>
+      <stop offset="0.5" stop-color="#5fb6d9"/>
+      <stop offset="1" stop-color="#3a8ab0"/>
+    </linearGradient>
+    <linearGradient id="ag" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="42" fill="url(#g)"/>
+  <path d="M 28 144 L 124 58 L 124 86 L 163 48 L 163 96 L 139 96 L 139 77 L 48 163 Z" fill="url(#ag)"/>
+  <path d="M 96 48 L 149 75 L 96 102 L 43 75 Z" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 43 75 L 43 134 L 96 161 L 96 102 Z" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 149 75 L 149 134 L 96 161 L 96 102 Z" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+  <g transform="translate(75, 57) scale(0.43)">
+    <path d="M 50 0 L 100 25 L 50 50 L 0 25 Z" fill="#ffffff"/>
+    <path d="M 0 25 L 0 75 L 50 100 L 50 50 Z" fill="#ffffff" opacity="0.65"/>
+    <path d="M 100 25 L 100 75 L 50 100 L 50 50 Z" fill="#ffffff" opacity="0.8"/>
+  </g>
+</svg>
